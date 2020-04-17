@@ -21,7 +21,12 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  // Animation
+  Animation<double> animation;
+  AnimationController controller;
+
   // number of times the user taps
   int numTaps = 0;
 
@@ -34,7 +39,35 @@ class _MyHomePageState extends State<MyHomePage> {
   // for creating a square
   double posX = 0.0;
   double posY = 0.0;
-  double boxSize = 150.0; // width and height of the square
+
+  // at the start of the animation, the box will not be visible
+  double boxSize = 0; // width and height of the square
+  final double fullBoxSize = 150.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 5000),
+      vsync: this,
+    );
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeInOut);
+
+    animation.addListener(() {
+      // at 0 - our square will be invisible and hence inital box-size value is 0;
+      setState(() {
+        boxSize = fullBoxSize * animation.value;
+      });
+
+      // center the square while its sizing is changing
+      center(context);
+    });
+
+    // start the animation
+    controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +138,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  // cleaning the resources
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   // placing the square in the center of the screen

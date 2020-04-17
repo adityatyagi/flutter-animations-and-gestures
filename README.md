@@ -33,5 +33,36 @@ A `GestureDetector()` is a widget that detects gestures. Gestures like:
 4. onVerticalDragUpdate()  
 5. onHorizontalDragUpdate()  
 
+# ANIMATIONS
+We use `AnimationController` and `CurvedAnimation` to create animations.  
 
+AnimationController - It generates a new value whenever the hardware is ready for a new frame. It generates number from 0.0 to 1.0  
+The `vsync` property makes sure that if the object is not visible, it doesnt waste resources.  
+
+CurvedAnimation - It defines the animation's progress as a Num-Linear curve. 
+
+`addListner()` is called whenever the value of the animation changes. Here we call `setState()` to update the UI.  
+
+`forward()` begins the animation.  
+
+![image](https://user-images.githubusercontent.com/18363595/79575905-203b2c80-80e0-11ea-89c9-b5fd2ee2dcd5.png)
+
+
+## STATEFUL WIDGET LIFECYCLE  
+
+1. initState - When the state is created. Used to perform initializations. Called only once.  
+
+2. build - Everytime you call the `setState()`, the build is called.  
+
+3. dispose - At the end of the lifetime, we can override the dispose method. Helps to free resources.  
+
+![image](https://user-images.githubusercontent.com/18363595/79576305-aeafae00-80e0-11ea-8cee-005e5d0db2fa.png)  
+
+# MIXINS
+In OOP, a MIXIN is a class that contains methods that can be used by other classes without having to be the parent class of those other classes. That's why we use `with` keyword while using a MIXIN in Flutter, because in a way we are INCLUDING a class and not INHERTING from it.  
+
+For example:  
+
+The `SingleTickerProviderStateMixin` mixin provides a single `ticker`. The `ticker` calls its callback once per animation frame.  
+   
 
